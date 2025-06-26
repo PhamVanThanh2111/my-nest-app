@@ -21,6 +21,10 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
+  async findByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOneBy({ email });
+  }
+
   async findOne(id: string): Promise<User> {
     const user = await this.usersRepository.findOneBy({ id });
     if (!user) {
@@ -49,4 +53,3 @@ export class UsersService {
     return query.getMany();
   }
 }
-
