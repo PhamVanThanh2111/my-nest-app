@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Controller, Get, Post, Body, Param, Delete, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -11,9 +12,11 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  // get by name and age with query parameters /search?name=John&age=30
+  @Get('search')
+  findByNameAndAge(@Query('name') name: string, @Query('age') age: string) {
+    const ageNumber = age !== undefined ? Number(age) : undefined;
+    return this.usersService.findByNameAndAge(name, ageNumber);
   }
 
   @Get(':id')
@@ -21,8 +24,18 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: CreateUserDto) {
+    return this.usersService.update(id, updateUserDto);
   }
 }

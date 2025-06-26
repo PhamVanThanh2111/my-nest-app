@@ -32,5 +32,21 @@ export class UsersService {
   async remove(id: string): Promise<void> {
     await this.usersRepository.delete(id);
   }
+
+  async update(id: string, updateUserDto: CreateUserDto): Promise<User> {
+    await this.usersRepository.update(id, updateUserDto);
+    return this.findOne(id);
+  }
+
+  async findByNameAndAge(name?: string, age?: number): Promise<User[]> {
+    const query = this.usersRepository.createQueryBuilder('user');
+    if (name) {
+      query.andWhere('user.name LIKE :name', { name: `%${name}%` });
+    }
+    if (age !== undefined) {
+      query.andWhere('user.age = :age', { age });
+    }
+    return query.getMany();
+  }
 }
 

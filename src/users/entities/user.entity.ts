@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Post } from '../../posts/entities/post.entity';
 
 @Entity()
 export class User {
@@ -13,4 +15,7 @@ export class User {
 
   @Column({ nullable: true })
   age: number;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }

@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
+import { Post } from './posts/entities/post.entity';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -12,10 +14,11 @@ import { User } from './users/entities/user.entity';
       username: 'postgres',
       password: 'root',
       database: 'nestdb',
-      entities: [User],
+      entities: [User, Post],
       synchronize: true, // tự tạo bảng từ entity (chỉ dùng cho dev)
     }),
     UsersModule,
+    PostsModule,
   ],
 })
 export class AppModule {}
